@@ -1,4 +1,4 @@
-# rgrm-ds-tokens
+# @rgrmdesign/rgrm-ds-tokens
 
 Design tokens as CSS custom properties, generated from Figma variables with
 [Style Dictionary](https://styledictionary.com).
@@ -9,7 +9,7 @@ publishable CSS in `dist/` by a build step.
 ## Installation
 
 ```bash
-npm install rgrm-ds-tokens
+npm install @rgrmdesign/rgrm-ds-tokens
 ```
 
 ## Usage
@@ -17,15 +17,15 @@ npm install rgrm-ds-tokens
 Import the complete bundle (root tokens + all themes in a single file):
 
 ```css
-@import "rgrm-ds-tokens/tokens.css";
+@import "@rgrmdesign/rgrm-ds-tokens/tokens.css";
 ```
 
 Or import selectively:
 
 ```css
-@import "rgrm-ds-tokens/root.css";   /* :root base + base theme */
-@import "rgrm-ds-tokens/dark.css";   /* [data-theme="dark"] */
-@import "rgrm-ds-tokens/brand.css";  /* [data-theme="brand"] */
+@import "@rgrmdesign/rgrm-ds-tokens/root.css";   /* :root base + base theme */
+@import "@rgrmdesign/rgrm-ds-tokens/dark.css";   /* [data-theme="dark"] */
+@import "@rgrmdesign/rgrm-ds-tokens/brand.css";  /* [data-theme="brand"] */
 ```
 
 The tokens are then available as CSS custom properties:
@@ -103,12 +103,28 @@ Intermediate files go to `build/` (git-ignored); the publishable output to
 
 ## Publishing
 
+Releases are versioned with [Changesets](https://github.com/changesets/changesets)
+and published to npm automatically by GitHub Actions
+(`.github/workflows/release.yml`).
+
+Workflow for a change:
+
 ```bash
-pnpm publish
+pnpm changeset          # describe the change + pick a semver bump
+git commit -am "…"      # commit code + the new .changeset/*.md
+git push                # push to main (or open a PR)
 ```
+
+On push to `main` the workflow opens a **"Version Packages"** PR (version bump +
+changelog). Merging that PR triggers the actual `pnpm release`
+(`changeset publish`) to npm.
 
 `prepublishOnly` automatically runs `clean` + `typecheck` + `build`, so only a
 fresh `dist/` is published (see the `files` field in `package.json`).
+
+Publishing uses npm [Trusted Publishing](https://docs.npmjs.com/trusted-publishers)
+via OIDC (`id-token: write`), so no `NPM_TOKEN` secret is needed and packages are
+published with provenance.
 
 ## License
 
