@@ -6,7 +6,7 @@ import { isFigmaToken, type FigmaTree } from './figma-types.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FIGMA_DIR = join(ROOT, 'figma');
-const OUT_FILE = join(ROOT, 'build', 'tokens', 'fluid.json');
+const OUT_FILE = join(ROOT, 'build', 'tokens', 'viewport.json');
 
 interface FluidToken {
   $type: string;
@@ -111,5 +111,5 @@ export function generateFluid(): string {
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   generateFluid();
-  console.log('generate-fluid: wrote build/tokens/fluid.json');
+  console.log('generate-fluid: wrote build/tokens/viewport.json');
 }

@@ -22,8 +22,8 @@ registerFigmaTransforms(StyleDictionary);
 const GLOBAL_SOURCES = [
   'build/tokens/default.json',
   'build/tokens/typography.json',
-  'build/tokens/paragraph-style.json',
-  'build/tokens/fluid.json',
+  'build/tokens/paragraph.json',
+  'build/tokens/viewport.json',
 ];
 
 // Private Figma helpers are prefixed with `_`: keep them resolvable, hide from output.

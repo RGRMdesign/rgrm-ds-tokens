@@ -54,7 +54,36 @@ function stringToCss(value: FigmaTokenValue): string {
   return /\s/.test(value) ? `"${value}"` : value;
 }
 
+/** Lower-case, hyphenate camelCase / spaces / underscores into a single kebab segment. */
+function kebab(segment: string): string {
+  return segment
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase();
+}
+
+/**
+ * Derive the Figma collection name from a token's source file. Every theme mode
+ * (base/dark/brand) lives in the same `theme` collection, so they share a prefix
+ * and override each other through the cascade.
+ */
+function collectionOf(filePath: string | undefined): string {
+  const fp = filePath ?? '';
+  if (fp.includes('/theme/')) return 'theme';
+  const file = fp.split('/').pop() ?? '';
+  return file.replace(/\.json$/, '') || 'tokens';
+}
+
 export function registerFigmaTransforms(sd: typeof StyleDictionary): void {
+  // Output names are `rgrm-<collection>-<token-path>`, e.g. a `main/font-family`
+  // token from the `paragraph` collection becomes `--rgrm-paragraph-main-font-family`.
+  sd.registerTransform({
+    name: 'name/rgrm-collection',
+    type: 'name',
+    transform: (token) =>
+      ['rgrm', collectionOf(token.filePath), ...token.path].map(kebab).join('-'),
+  });
+
   sd.registerTransform({
     name: 'color/figma-css',
     type: 'value',
@@ -81,6 +110,6 @@ export function registerFigmaTransforms(sd: typeof StyleDictionary): void {
 
   sd.registerTransformGroup({
     name: 'css-figma',
-    transforms: ['name/kebab', 'color/figma-css', 'size/figma-rem', 'string/figma-css'],
+    transforms: ['name/rgrm-collection', 'color/figma-css', 'size/figma-rem', 'string/figma-css'],
   });
 }
