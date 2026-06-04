@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.3.0
+
+### Minor Changes
+
+- b4eb07a: Update colors en remove \_ variables
+
 ## 0.2.0
 
 ### Minor Changes
