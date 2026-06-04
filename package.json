@@ -1,6 +1,6 @@
 {
   "name": "@rgrmdesign/rgrm-ds-tokens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Design tokens (CSS custom properties) generated from Figma variables via Style Dictionary.",
   "type": "module",
   "main": "dist/tokens.css",
