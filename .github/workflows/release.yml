@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write      # changesets mag de "Version Packages" PR pushen
+  pull-requests: write # changesets maakt/bijwerkt die PR
+  id-token: write      # OIDC: trusted publishing + provenance
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Use npm >= 11.5.1 (OIDC trusted publishing)
+        run: npm install -g npm@latest
+
+      - name: Create Release PR or detect merged version
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # changeset publish via pnpm faalt op OIDC; een directe `npm publish`
+      # erft de OIDC-credentials wel correct en genereert automatisch
+      # provenance. prepublishOnly bouwt dist/ vers. We publiceren alleen
+      # als de versie nog niet op npm staat (idempotent bij elke push).
+      - name: Publish to npm
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "$NAME@$VERSION is already published, skipping."
+          else
+            npm publish --access public
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

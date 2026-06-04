@@ -1,0 +1,9 @@
+# pnpm 11 blocks unreviewed dependency build scripts (strictDepBuilds).
+# None of these need their install/build script here: tsx uses esbuild's
+# prebuilt platform binary (a normal dependency), and Style Dictionary / glob
+# have no build output we rely on. Reviewing them as `false` skips the scripts
+# without erroring.
+allowBuilds:
+  esbuild: false
+  "@bundled-es-modules/glob": false
+  style-dictionary: false
