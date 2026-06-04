@@ -68,7 +68,8 @@ ends of fluid typography and spacing). These are merged into a single set of
 ## Development
 
 This project uses **pnpm** (via Corepack) and **TypeScript** (run with
-[`tsx`](https://tsx.is), no separate compile step). Requires Node 20+.
+[`tsx`](https://tsx.is), no separate compile step). Requires Node 22.13+ (see
+`.nvmrc`); `pnpm@11` won't run on older Node versions.
 
 ```bash
 corepack enable        # one-time: activates the pnpm version from package.json
