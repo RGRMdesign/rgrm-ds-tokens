@@ -23,6 +23,7 @@ const GLOBAL_SOURCES = [
   'build/tokens/default.json',
   'build/tokens/typography.json',
   'build/tokens/paragraph.json',
+  'build/tokens/heading.json',
   'build/tokens/viewport.json',
 ];
 

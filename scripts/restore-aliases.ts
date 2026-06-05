@@ -64,6 +64,7 @@ export function restoreAliases(): string[] {
     { src: join(FIGMA_DIR, 'default', 'tokens.json'), out: join(OUT_DIR, 'default.json') },
     { src: join(FIGMA_DIR, 'typography', 'tokens.json'), out: join(OUT_DIR, 'typography.json') },
     { src: join(FIGMA_DIR, 'paragraph', 'tokens.json'), out: join(OUT_DIR, 'paragraph.json') },
+    { src: join(FIGMA_DIR, 'heading', 'tokens.json'), out: join(OUT_DIR, 'heading.json') },
     { src: join(FIGMA_DIR, 'theme', 'base.tokens.json'), out: join(OUT_DIR, 'theme', 'base.json') },
     { src: join(FIGMA_DIR, 'theme', 'dark.tokens.json'), out: join(OUT_DIR, 'theme', 'dark.json') },
     { src: join(FIGMA_DIR, 'theme', 'brand.tokens.json'), out: join(OUT_DIR, 'theme', 'brand.json') },
