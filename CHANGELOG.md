@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.5.0
+
+### Minor Changes
+
+- b8276f5: Make Heading tokens available in output
+
 ## 0.4.0
 
 ### Minor Changes
