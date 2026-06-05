@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.4.0
+
+### Minor Changes
+
+- a886404: Add Heading tokens
+
 ## 0.3.0
 
 ### Minor Changes
