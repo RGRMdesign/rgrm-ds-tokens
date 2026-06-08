@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.6.1
+
+### Patch Changes
+
+- 26ffc10: Update button tokens with adjusted paddings
+
 ## 0.6.0
 
 ### Minor Changes
