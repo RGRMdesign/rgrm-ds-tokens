@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.7.0
+
+### Minor Changes
+
+- 20f8bcd: Split CSS output into three layers so themed components resolve correctly in nested `[data-theme]` sections.
+
 ## 0.6.1
 
 ### Patch Changes
