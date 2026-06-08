@@ -20,13 +20,24 @@ Import the complete bundle (root tokens + all themes in a single file):
 @import "@rgrmdesign/rgrm-ds-tokens/tokens.css";
 ```
 
-Or import selectively:
+Or import selectively (load `components.css` after root and any theme files):
 
 ```css
-@import "@rgrmdesign/rgrm-ds-tokens/root.css";   /* :root base + base theme */
-@import "@rgrmdesign/rgrm-ds-tokens/dark.css";   /* [data-theme="dark"] */
-@import "@rgrmdesign/rgrm-ds-tokens/brand.css";  /* [data-theme="brand"] */
+@import "@rgrmdesign/rgrm-ds-tokens/root.css";        /* :root primitives + base theme */
+@import "@rgrmdesign/rgrm-ds-tokens/dark.css";        /* [data-theme="dark"] */
+@import "@rgrmdesign/rgrm-ds-tokens/brand.css";      /* [data-theme="brand"] */
+@import "@rgrmdesign/rgrm-ds-tokens/components.css";  /* component tokens */
 ```
+
+Output is split into three layers:
+
+1. **`root.css`** (`:root`) — primitives (`--rgrm-default-*`, `--rgrm-typography-*`,
+   `--rgrm-viewport-*`) and base theme (`--rgrm-theme-*`).
+2. **`theme-*.css`** (`[data-theme="…"]`) — theme overrides only.
+3. **`components.css`** (`:where(:root, [data-theme])`) — all component tokens
+   (`--rgrm-paragraph-*`, `--rgrm-heading-*`, `--rgrm-button-*`). Component
+   aliases to theme tokens are re-declared on themed sections so nested themes
+   resolve correctly.
 
 The tokens are then available as CSS custom properties:
 
@@ -88,8 +99,9 @@ The build does three things:
    `com.figma.aliasData`; this converts them back into real DTCG references.
 2. **`scripts/generate-fluid.ts`** – merges the viewport `small`/`large` modes
    into fluid `clamp()` tokens.
-3. **`build.ts`** – runs Style Dictionary in three passes (`:root` + base,
-   `[data-theme="dark"]`, `[data-theme="brand"]`) and bundles the output.
+3. **`build.ts`** – runs Style Dictionary in four passes (`:root` primitives +
+   base theme, theme overrides, `:where(:root, [data-theme])` components) and
+   bundles the output.
 
 Intermediate files go to `build/` (git-ignored); the publishable output to
 `dist/`.

@@ -31,14 +31,22 @@ const GLOBAL_SOURCES = [
 // Private Figma helpers are prefixed with `_`: keep them resolvable, hide from output.
 const isPrivate = (token: TransformedToken): boolean =>
   token.path.some((segment) => segment.startsWith('_'));
-const isPublic: Filter['filter'] = (token) => !isPrivate(token);
+const isPublic = (token: TransformedToken): boolean => !isPrivate(token);
 const isTheme = (token: TransformedToken): boolean => (token.filePath ?? '').includes('/theme/');
 
+const COMPONENT_COLLECTIONS = ['paragraph', 'heading', 'button'] as const;
+
+const isComponentToken = (token: TransformedToken): boolean =>
+  COMPONENT_COLLECTIONS.some((name) => (token.filePath ?? '').includes(`/${name}.json`));
+
+/** Primitives + theme on :root; component API on :where(:root, [data-theme]). */
+const COMPONENT_SELECTOR = ':where(:root, [data-theme])';
+
 /**
- * Emit `var(--ref)` only when every referenced token is public. Public tokens
- * always live in :root (root.css), so theme files can safely reference them even
- * though they are not re-emitted there. References to private (`_`) helpers are
- * inlined as literal values instead, avoiding dangling `var()`s.
+ * Emit `var(--ref)` only when every referenced token is public. Primitives live on
+ * :root; component tokens live on :where(:root, [data-theme]). Theme overrides are
+ * scoped to [data-theme="…"] and are not re-emitted there. References to private
+ * (`_`) helpers are inlined as literal values instead, avoiding dangling `var()`s.
  */
 function outputReferencesPublic(
   token: TransformedToken,
@@ -97,11 +105,11 @@ function makeBuild({ themeFile, selector, destination, filter }: Pass): StyleDic
 
 const PASSES: Pass[] = [
   {
-    // Base theme + all global tokens on :root.
+    // Primitives (default, typography, viewport) + base theme on :root.
     themeFile: 'build/tokens/theme/base.json',
     selector: ':root',
     destination: 'root.css',
-    filter: isPublic,
+    filter: (token) => isPublic(token) && !isComponentToken(token),
   },
   {
     themeFile: 'build/tokens/theme/dark.json',
@@ -115,6 +123,14 @@ const PASSES: Pass[] = [
     destination: 'theme-brand.css',
     filter: (token) => !isPrivate(token) && isTheme(token),
   },
+  {
+    // All component tokens; re-declared on themed sections so theme-bound aliases
+    // resolve in the correct theme context (see COMPONENT_SELECTOR).
+    themeFile: 'build/tokens/theme/base.json',
+    selector: COMPONENT_SELECTOR,
+    destination: 'components.css',
+    filter: (token) => isPublic(token) && isComponentToken(token),
+  },
 ];
 
 for (const pass of PASSES) {
@@ -124,7 +140,7 @@ for (const pass of PASSES) {
 
 // 3. Aggregate outputs: a single self-contained bundle + an @import entry point.
 const cssDir = join(ROOT, 'dist', 'css');
-const files = ['root.css', 'theme-dark.css', 'theme-brand.css'];
+const files = ['root.css', 'theme-dark.css', 'theme-brand.css', 'components.css'];
 
 const banner = '/**\n * rgrm-ds-tokens — generated from Figma. Do not edit by hand.\n */\n';
 

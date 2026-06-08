@@ -17,6 +17,7 @@
     "./root.css": "./dist/css/root.css",
     "./dark.css": "./dist/css/theme-dark.css",
     "./brand.css": "./dist/css/theme-brand.css",
+    "./components.css": "./dist/css/components.css",
     "./css/*": "./dist/css/*"
   },
   "sideEffects": [
