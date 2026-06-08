@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.6.0
+
+### Minor Changes
+
+- 1ee39f5: Add button tokens and remove unused tokens
+
 ## 0.5.0
 
 ### Minor Changes
