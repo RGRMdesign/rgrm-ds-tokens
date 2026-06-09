@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.8.0
+
+### Minor Changes
+
+- cf83a57: Change font to open source Geist
+
 ## 0.7.0
 
 ### Minor Changes
