@@ -25,16 +25,20 @@ const GLOBAL_SOURCES = [
   'build/tokens/paragraph.json',
   'build/tokens/heading.json',
   'build/tokens/button.json',
+  'build/tokens/root.json',
   'build/tokens/viewport.json',
 ];
 
 // Private Figma helpers are prefixed with `_`: keep them resolvable, hide from output.
+const tokenPath = (token: TransformedToken & { ref?: string[] }): string[] =>
+  token.path ?? token.ref ?? [];
+
 const isPrivate = (token: TransformedToken): boolean =>
-  token.path.some((segment) => segment.startsWith('_'));
+  tokenPath(token).some((segment) => segment.startsWith('_'));
 const isPublic = (token: TransformedToken): boolean => !isPrivate(token);
 const isTheme = (token: TransformedToken): boolean => (token.filePath ?? '').includes('/theme/');
 
-const COMPONENT_COLLECTIONS = ['paragraph', 'heading', 'button'] as const;
+const COMPONENT_COLLECTIONS = ['paragraph', 'heading', 'button', 'root'] as const;
 
 const isComponentToken = (token: TransformedToken): boolean =>
   COMPONENT_COLLECTIONS.some((name) => (token.filePath ?? '').includes(`/${name}.json`));

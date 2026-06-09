@@ -74,6 +74,13 @@ function collectionOf(filePath: string | undefined): string {
   return file.replace(/\.json$/, '') || 'tokens';
 }
 
+/** Root tokens are nested under `default` in source only; omit that segment in CSS names. */
+function namePath(token: TransformedToken): string[] {
+  const path = token.path;
+  if (collectionOf(token.filePath) === 'root' && path[0] === 'default') return path.slice(1);
+  return path;
+}
+
 export function registerFigmaTransforms(sd: typeof StyleDictionary): void {
   // Output names are `rgrm-<collection>-<token-path>`, e.g. a `main/font-family`
   // token from the `paragraph` collection becomes `--rgrm-paragraph-main-font-family`.
@@ -81,7 +88,7 @@ export function registerFigmaTransforms(sd: typeof StyleDictionary): void {
     name: 'name/rgrm-collection',
     type: 'name',
     transform: (token) =>
-      ['rgrm', collectionOf(token.filePath), ...token.path].map(kebab).join('-'),
+      ['rgrm', collectionOf(token.filePath), ...namePath(token)].map(kebab).join('-'),
   });
 
   sd.registerTransform({

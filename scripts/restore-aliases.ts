@@ -66,13 +66,18 @@ export function restoreAliases(): string[] {
     { src: join(FIGMA_DIR, 'paragraph', 'tokens.json'), out: join(OUT_DIR, 'paragraph.json') },
     { src: join(FIGMA_DIR, 'heading', 'tokens.json'), out: join(OUT_DIR, 'heading.json') },
     { src: join(FIGMA_DIR, 'button', 'tokens.json'), out: join(OUT_DIR, 'button.json') },
+    { src: join(FIGMA_DIR, 'root', 'tokens.json'), out: join(OUT_DIR, 'root.json') },
     { src: join(FIGMA_DIR, 'theme', 'base.tokens.json'), out: join(OUT_DIR, 'theme', 'base.json') },
     { src: join(FIGMA_DIR, 'theme', 'dark.tokens.json'), out: join(OUT_DIR, 'theme', 'dark.json') },
     { src: join(FIGMA_DIR, 'theme', 'brand.tokens.json'), out: join(OUT_DIR, 'theme', 'brand.json') },
   ];
 
   for (const { src, out } of jobs) {
-    writeJson(out, cleanTokens(readJson(src)));
+    const cleaned = cleanTokens(readJson(src));
+    // Root tokens are flat in Figma; nest them so names like `letter-spacing` do
+    // not collide with referenced groups (e.g. `{letter-spacing.normal}`).
+    const data = out.endsWith('/root.json') ? { default: cleaned } : cleaned;
+    writeJson(out, data);
   }
 
   return jobs.map((j) => j.out);
