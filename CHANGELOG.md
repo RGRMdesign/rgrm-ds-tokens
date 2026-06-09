@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.10.0
+
+### Minor Changes
+
+- 81076e3: Add selection tokens to root
+
 ## 0.9.0
 
 ### Minor Changes
