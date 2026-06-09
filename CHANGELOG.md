@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.9.0
+
+### Minor Changes
+
+- 0abe41e: Add root component tokens for document-level styles (`--rgrm-root-background-color`, `--rgrm-root-color`, typography, and related properties) in `components.css`.
+
 ## 0.8.0
 
 ### Minor Changes
