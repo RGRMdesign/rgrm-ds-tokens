@@ -11,7 +11,7 @@ publishable CSS in `dist/` by a build step.
 These tokens are the **source of truth for visual design** in the
 [RGRM Design System](https://github.com/RGRMdesign/rgrm-ds) (`@rgrmdesign/rgrm-ds-*`).
 That monorepo ships component CSS, React components, and Web Components that
-reference the custom properties from this package (e.g. `var(--font-size-h1)`).
+reference component tokens from this package (e.g. `var(--rgrm-heading-h1-font-size)`).
 The design system declares `@rgrmdesign/rgrm-ds-tokens` as a **peer dependency**,
 so consuming apps load the tokens once and share them across all `@rgrmdesign/rgrm-ds-*`
 packages.
@@ -54,22 +54,33 @@ Output is split into three layers:
 1. **`root.css`** (`:root`) — primitives (`--rgrm-core-*`, `--rgrm-scale-*`) and base
    theme (`--rgrm-theme-*`).
 2. **`theme-*.css`** (`[data-theme="…"]`) — theme overrides only.
-3. **`components.css`** (`:where(:root, [data-theme])`) — all component tokens
-   (`--rgrm-paragraph-*`, `--rgrm-heading-*`, `--rgrm-button-*`). Component
-   aliases to theme tokens are re-declared on themed sections so nested themes
-   resolve correctly.
+3. **`components.css`** (`:where(:root, [data-theme])`) — component tokens
+   (`--rgrm-paragraph-*`, `--rgrm-heading-*`, `--rgrm-button-*`, …). These are
+   what component CSS typically consumes; they alias down to theme and scale tokens
+   and are re-declared on themed sections so nested themes resolve correctly.
 
-The tokens are then available as CSS custom properties:
+In practice, component styles read **component tokens** (`--rgrm-<component>-*`),
+not primitives or theme tokens directly. Names follow
+`--rgrm-<component>-<variant>-<property>`; interaction states use suffixes such as
+`-hover`, `-active` and `-focus-visible`:
 
 ```css
-.card {
-  background: var(--background);
-  color: var(--text);
-  padding: var(--space-5);
-  border-radius: var(--radius-main);
-  font-size: var(--font-size-main);
+.rgrm-button--primary {
+  border-radius: var(--rgrm-button-primary-border-radius);
+  padding-block: var(--rgrm-button-primary-padding-block-start)
+    var(--rgrm-button-primary-padding-block-end);
+  background: var(--rgrm-button-primary-background-color);
+  color: var(--rgrm-button-primary-color);
+}
+
+.rgrm-button--primary:hover {
+  background: var(--rgrm-button-primary-background-color-hover);
+  color: var(--rgrm-button-primary-color-hover);
 }
 ```
+
+For custom UI without RGRM components you can still use lower layers directly
+(`--rgrm-theme-*`, `--rgrm-scale-*`, `--rgrm-core-*`).
 
 ### Switching themes
 
@@ -93,7 +104,7 @@ ends of fluid typography and spacing). These are merged into a single set of
 (`--rgrm-core-site-viewport-min` … `--rgrm-core-site-viewport-max`). For example:
 
 ```css
---font-size-main: clamp(1rem, 0.9643rem + 0.1786vw, 1.125rem);
+--rgrm-scale-font-size-main: clamp(1rem, 0.9643rem + 0.1786vw, 1.125rem);
 ```
 
 ## Development
