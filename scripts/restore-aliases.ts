@@ -56,13 +56,12 @@ function writeJson(path: string, data: unknown): void {
 }
 
 /**
- * Normalises every collection except `viewport` (the viewport modes are merged
- * into fluid clamp() tokens by generate-fluid.ts).
+ * Normalises every collection except `scale` (the scale modes are merged into
+ * fluid clamp() tokens by generate-fluid.ts).
  */
 export function restoreAliases(): string[] {
   const jobs = [
-    { src: join(FIGMA_DIR, 'default', 'tokens.json'), out: join(OUT_DIR, 'default.json') },
-    { src: join(FIGMA_DIR, 'typography', 'tokens.json'), out: join(OUT_DIR, 'typography.json') },
+    { src: join(FIGMA_DIR, 'core', 'tokens.json'), out: join(OUT_DIR, 'core.json') },
     { src: join(FIGMA_DIR, 'paragraph', 'tokens.json'), out: join(OUT_DIR, 'paragraph.json') },
     { src: join(FIGMA_DIR, 'heading', 'tokens.json'), out: join(OUT_DIR, 'heading.json') },
     { src: join(FIGMA_DIR, 'button', 'tokens.json'), out: join(OUT_DIR, 'button.json') },
@@ -76,7 +75,7 @@ export function restoreAliases(): string[] {
     const cleaned = cleanTokens(readJson(src));
     // Root tokens are flat in Figma; nest them so names like `letter-spacing` do
     // not collide with referenced groups (e.g. `{letter-spacing.normal}`).
-    const data = out.endsWith('/root.json') ? { default: cleaned } : cleaned;
+    const data = out.endsWith('/root.json') ? { core: cleaned } : cleaned;
     writeJson(out, data);
   }
 

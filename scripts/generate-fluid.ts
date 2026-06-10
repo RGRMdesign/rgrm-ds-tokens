@@ -6,7 +6,7 @@ import { isFigmaToken, type FigmaTree } from './figma-types.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FIGMA_DIR = join(ROOT, 'figma');
-const OUT_FILE = join(ROOT, 'build', 'tokens', 'viewport.json');
+const OUT_FILE = join(ROOT, 'build', 'tokens', 'scale.json');
 
 interface FluidToken {
   $type: string;
@@ -17,10 +17,10 @@ interface FluidTree {
 }
 
 /**
- * The `viewport` collection has two modes (small/large) that represent the
- * min/max ends of fluid typography and spacing. We collapse them into a single
- * set of `clamp()` tokens that interpolate between the small and large viewport
- * widths (viewport-min / viewport-max from the Default collection).
+ * The `scale` collection has two modes (small/large) that represent the min/max
+ * ends of fluid typography and spacing. We collapse them into a single set of
+ * `clamp()` tokens that interpolate between the small and large viewport widths
+ * (viewport-min / viewport-max from the core collection).
  */
 function readJson(path: string): FigmaTree {
   return JSON.parse(readFileSync(path, 'utf8')) as FigmaTree;
@@ -88,12 +88,12 @@ function walk(
 }
 
 export function generateFluid(): string {
-  const small = readJson(join(FIGMA_DIR, 'viewport', 'small.tokens.json'));
-  const large = readJson(join(FIGMA_DIR, 'viewport', 'large.tokens.json'));
-  const def = readJson(join(FIGMA_DIR, 'default', 'tokens.json'));
+  const small = readJson(join(FIGMA_DIR, 'scale', 'small.tokens.json'));
+  const large = readJson(join(FIGMA_DIR, 'scale', 'large.tokens.json'));
+  const core = readJson(join(FIGMA_DIR, 'core', 'tokens.json'));
 
   // viewport-min / viewport-max are expressed in rem (20rem = 320px, 90rem = 1440px).
-  const site = def.site as FigmaTree;
+  const site = core.site as FigmaTree;
   const breakpointRem = (key: string): number => {
     const token = site[key];
     if (!isFigmaToken(token)) throw new Error(`Expected site.${key} to be a token`);
@@ -111,5 +111,5 @@ export function generateFluid(): string {
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   generateFluid();
-  console.log('generate-fluid: wrote build/tokens/viewport.json');
+  console.log('generate-fluid: wrote build/tokens/scale.json');
 }

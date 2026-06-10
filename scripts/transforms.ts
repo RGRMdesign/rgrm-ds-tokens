@@ -74,10 +74,10 @@ function collectionOf(filePath: string | undefined): string {
   return file.replace(/\.json$/, '') || 'tokens';
 }
 
-/** Root tokens are nested under `default` in source only; omit that segment in CSS names. */
+/** Root tokens are nested under `core` in source only; omit that segment in CSS names. */
 function namePath(token: TransformedToken): string[] {
   const path = token.path;
-  if (collectionOf(token.filePath) === 'root' && path[0] === 'default') return path.slice(1);
+  if (collectionOf(token.filePath) === 'root' && path[0] === 'core') return path.slice(1);
   return path;
 }
 

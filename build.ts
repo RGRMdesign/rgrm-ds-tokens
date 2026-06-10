@@ -20,13 +20,12 @@ registerFigmaTransforms(StyleDictionary);
 
 // Tokens shared across every theme (loaded in each pass so references resolve).
 const GLOBAL_SOURCES = [
-  'build/tokens/default.json',
-  'build/tokens/typography.json',
+  'build/tokens/core.json',
   'build/tokens/paragraph.json',
   'build/tokens/heading.json',
   'build/tokens/button.json',
   'build/tokens/root.json',
-  'build/tokens/viewport.json',
+  'build/tokens/scale.json',
 ];
 
 // Private Figma helpers are prefixed with `_`: keep them resolvable, hide from output.
@@ -109,7 +108,7 @@ function makeBuild({ themeFile, selector, destination, filter }: Pass): StyleDic
 
 const PASSES: Pass[] = [
   {
-    // Primitives (default, typography, viewport) + base theme on :root.
+    // Primitives (core, scale) + base theme on :root.
     themeFile: 'build/tokens/theme/base.json',
     selector: ':root',
     destination: 'root.css',

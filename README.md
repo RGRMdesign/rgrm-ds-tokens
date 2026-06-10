@@ -31,8 +31,8 @@ Or import selectively (load `components.css` after root and any theme files):
 
 Output is split into three layers:
 
-1. **`root.css`** (`:root`) — primitives (`--rgrm-default-*`, `--rgrm-typography-*`,
-   `--rgrm-viewport-*`) and base theme (`--rgrm-theme-*`).
+1. **`root.css`** (`:root`) — primitives (`--rgrm-core-*`, `--rgrm-scale-*`) and base
+   theme (`--rgrm-theme-*`).
 2. **`theme-*.css`** (`[data-theme="…"]`) — theme overrides only.
 3. **`components.css`** (`:where(:root, [data-theme])`) — all component tokens
    (`--rgrm-paragraph-*`, `--rgrm-heading-*`, `--rgrm-button-*`). Component
@@ -67,10 +67,10 @@ Theme tokens reference the shared `swatch` palette variables from `:root`, so
 
 ### Fluid typography and spacing
 
-The `viewport` collection in Figma has a `small` and a `large` mode (the min/max
+The `scale` collection in Figma has a `small` and a `large` mode (the min/max
 ends of fluid typography and spacing). These are merged into a single set of
 `clamp()` values that scale between the viewport breakpoints
-(`--site-viewport-min` … `--site-viewport-max`). For example:
+(`--rgrm-core-site-viewport-min` … `--rgrm-core-site-viewport-max`). For example:
 
 ```css
 --font-size-main: clamp(1rem, 0.9643rem + 0.1786vw, 1.125rem);
@@ -97,8 +97,8 @@ The build does three things:
 1. **`scripts/restore-aliases.ts`** – restores cross-collection references.
    Figma flattens those into literal values while keeping the original link in
    `com.figma.aliasData`; this converts them back into real DTCG references.
-2. **`scripts/generate-fluid.ts`** – merges the viewport `small`/`large` modes
-   into fluid `clamp()` tokens.
+2. **`scripts/generate-fluid.ts`** – merges the scale `small`/`large` modes into
+   fluid `clamp()` tokens.
 3. **`build.ts`** – runs Style Dictionary in four passes (`:root` primitives +
    base theme, theme overrides, `:where(:root, [data-theme])` components) and
    bundles the output.
