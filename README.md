@@ -6,6 +6,26 @@ Design tokens as CSS custom properties, generated from Figma variables with
 The Figma export (W3C DTCG format) lives in [`figma/`](figma/) and is turned into
 publishable CSS in `dist/` by a build step.
 
+## Primary consumer
+
+These tokens are the **source of truth for visual design** in the
+[RGRM Design System](https://github.com/RGRMdesign/rgrm-ds) (`@rgrmdesign/rgrm-ds-*`).
+That monorepo ships component CSS, React components, and Web Components that
+reference the custom properties from this package (e.g. `var(--font-size-h1)`).
+The design system declares `@rgrmdesign/rgrm-ds-tokens` as a **peer dependency**,
+so consuming apps load the tokens once and share them across all `@rgrmdesign/rgrm-ds-*`
+packages.
+
+| Goal | Where to start |
+| --- | --- |
+| Use RGRM components (Button, Heading, …) | [rgrm-ds](https://github.com/RGRMdesign/rgrm-ds) — install `@rgrmdesign/rgrm-ds-css`, `-react`, or `-elements`; tokens are pulled in via the peer dependency |
+| Browse components and themes | [Storybook](https://rgrmdesign.github.io/rgrm-ds/) (deployed from `rgrm-ds`) |
+| Custom UI with only the token variables | This package — install and import the CSS below |
+
+Token changes in this repository are released independently on npm; bump the
+`@rgrmdesign/rgrm-ds-tokens` version in your app (or in `rgrm-ds`) to pick up
+new variables or theme updates.
+
 ## Installation
 
 ```bash
