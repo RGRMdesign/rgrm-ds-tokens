@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.12.0
+
+### Minor Changes
+
+- a995ce2: Move `radius` and `size` tokens from core to the scale collection. Button `border-radius` and `min-block-size` now reference fluid scale tokens (`--rgrm-scale-radius-*`, `--rgrm-scale-size-*`).
+
 ## 0.11.0
 
 ### Minor Changes
