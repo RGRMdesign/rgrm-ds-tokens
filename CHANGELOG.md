@@ -1,5 +1,11 @@
 # @rgrmdesign/rgrm-ds-tokens
 
+## 0.13.1
+
+### Patch Changes
+
+- 0ebbd20: Update button styling
+
 ## 0.13.0
 
 ### Minor Changes
