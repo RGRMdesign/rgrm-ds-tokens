@@ -101,6 +101,16 @@
       }
     }
   },
+  "list-item-content-space": {
+    "$type": "number",
+    "$value": 6.5,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:2206:341",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ]
+    }
+  },
   "radius": {
     "main": {
       "$type": "number",

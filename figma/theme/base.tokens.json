@@ -109,12 +109,12 @@
       "$value": {
         "colorSpace": "srgb",
         "components": [
-          0.05163422226905823,
-          0.10173545032739639,
-          0.23837515711784363
+          0.0749552920460701,
+          0.14571557939052582,
+          0.3386981785297394
         ],
         "alpha": 1,
-        "hex": "#0D1A3D"
+        "hex": "#132556"
       },
       "$extensions": {
         "com.figma.variableId": "VariableID:2050:519",
@@ -388,6 +388,60 @@
           "targetVariableName": "swatch/dark-900",
           "targetVariableSetId": "VariableCollectionId:1:2",
           "targetVariableSetName": "core"
+        }
+      }
+    }
+  },
+  "surface": {
+    "default": {
+      "background-color": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.3713003396987915,
+            0.9685649275779724
+          ],
+          "alpha": 1,
+          "hex": "#FF5FF7"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:2201:205",
+          "com.figma.scopes": [
+            "ALL_SCOPES"
+          ],
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:1:5",
+            "targetVariableName": "swatch/brand-500",
+            "targetVariableSetId": "VariableCollectionId:1:2",
+            "targetVariableSetName": "core"
+          }
+        }
+      },
+      "color": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.021083684638142586,
+            0.06369353830814362,
+            0.1808706372976303
+          ],
+          "alpha": 1,
+          "hex": "#05102E"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:2201:206",
+          "com.figma.scopes": [
+            "ALL_SCOPES"
+          ],
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:2:74",
+            "targetVariableName": "swatch/dark-900",
+            "targetVariableSetId": "VariableCollectionId:1:2",
+            "targetVariableSetName": "core"
+          }
         }
       }
     }
