@@ -24,6 +24,7 @@ const GLOBAL_SOURCES = [
   'build/tokens/paragraph.json',
   'build/tokens/heading.json',
   'build/tokens/button.json',
+  'build/tokens/link.json',
   'build/tokens/root.json',
   'build/tokens/scale.json',
 ];
@@ -37,7 +38,7 @@ const isPrivate = (token: TransformedToken): boolean =>
 const isPublic = (token: TransformedToken): boolean => !isPrivate(token);
 const isTheme = (token: TransformedToken): boolean => (token.filePath ?? '').includes('/theme/');
 
-const COMPONENT_COLLECTIONS = ['paragraph', 'heading', 'button', 'root'] as const;
+const COMPONENT_COLLECTIONS = ['paragraph', 'heading', 'button', 'link', 'root'] as const;
 
 const isComponentToken = (token: TransformedToken): boolean =>
   COMPONENT_COLLECTIONS.some((name) => (token.filePath ?? '').includes(`/${name}.json`));

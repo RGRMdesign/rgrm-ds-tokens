@@ -41,6 +41,12 @@ function numberToCss(value: FigmaTokenValue, path: string[]): string {
     return em === 0 ? '0' : `${em}em`;
   }
 
+  // Underline metrics are authored as em ratios in Figma.
+  if (has('text-decoration-thickness') || has('text-underline-offset')) {
+    const em = round(value);
+    return em === 0 ? '0' : `${em}em`;
+  }
+
   // Viewport breakpoints are authored in rem (20 -> 20rem), not px.
   if (last === 'viewport-min' || last === 'viewport-max') return `${round(value)}rem`;
 
