@@ -80,10 +80,12 @@ function collectionOf(filePath: string | undefined): string {
   return file.replace(/\.json$/, '') || 'tokens';
 }
 
-/** Root tokens are nested under `core` in source only; omit that segment in CSS names. */
+/** Root/badge tokens are nested in source only; omit that segment in CSS names. */
 function namePath(token: TransformedToken): string[] {
   const path = token.path;
-  if (collectionOf(token.filePath) === 'root' && path[0] === 'core') return path.slice(1);
+  const collection = collectionOf(token.filePath);
+  if (collection === 'root' && path[0] === 'core') return path.slice(1);
+  if (collection === 'badge' && path[0] === 'main') return path.slice(1);
   return path;
 }
 

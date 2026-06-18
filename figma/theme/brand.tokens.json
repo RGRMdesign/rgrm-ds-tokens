@@ -31,12 +31,12 @@
     "$value": {
       "colorSpace": "srgb",
       "components": [
-        0.8039215803146362,
-        0.30980393290519714,
-        0.8117647171020508
+        1,
+        0.49803921580314636,
+        0.9764705896377563
       ],
       "alpha": 1,
-      "hex": "#CD4FCF"
+      "hex": "#FF7FF9"
     },
     "$extensions": {
       "com.figma.variableId": "VariableID:2:115",
@@ -46,8 +46,8 @@
         "STROKE_COLOR"
       ],
       "com.figma.aliasData": {
-        "targetVariableId": "VariableID:2:121",
-        "targetVariableName": "swatch/brand-600",
+        "targetVariableId": "VariableID:2:134",
+        "targetVariableName": "swatch/brand-400",
         "targetVariableSetId": "VariableCollectionId:1:2",
         "targetVariableSetName": "core"
       }

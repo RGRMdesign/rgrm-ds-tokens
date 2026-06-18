@@ -66,6 +66,7 @@ export function restoreAliases(): string[] {
     { src: join(FIGMA_DIR, 'heading', 'tokens.json'), out: join(OUT_DIR, 'heading.json') },
     { src: join(FIGMA_DIR, 'button', 'tokens.json'), out: join(OUT_DIR, 'button.json') },
     { src: join(FIGMA_DIR, 'link', 'tokens.json'), out: join(OUT_DIR, 'link.json') },
+    { src: join(FIGMA_DIR, 'badge', 'tokens.json'), out: join(OUT_DIR, 'badge.json') },
     { src: join(FIGMA_DIR, 'root', 'tokens.json'), out: join(OUT_DIR, 'root.json') },
     { src: join(FIGMA_DIR, 'theme', 'base.tokens.json'), out: join(OUT_DIR, 'theme', 'base.json') },
     { src: join(FIGMA_DIR, 'theme', 'dark.tokens.json'), out: join(OUT_DIR, 'theme', 'dark.json') },
@@ -74,9 +75,13 @@ export function restoreAliases(): string[] {
 
   for (const { src, out } of jobs) {
     const cleaned = cleanTokens(readJson(src));
-    // Root tokens are flat in Figma; nest them so names like `letter-spacing` do
-    // not collide with referenced groups (e.g. `{letter-spacing.normal}`).
-    const data = out.endsWith('/root.json') ? { core: cleaned } : cleaned;
+    // Root and badge tokens are flat in Figma; nest them so names like
+    // `letter-spacing` / `line-height` do not collide with referenced groups.
+    const data = out.endsWith('/root.json')
+      ? { core: cleaned }
+      : out.endsWith('/badge.json')
+        ? { main: cleaned }
+        : cleaned;
     writeJson(out, data);
   }
 
